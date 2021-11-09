@@ -1,8 +1,8 @@
 // Tweakable parameters
 const SNOWFLAKES_PER_LAYER_BG = 160;
 const SNOWFLAKES_PER_LAYER_FG = 60;
-const MAX_SIZE_BG = 20;
-const MAX_SIZE_FG = 25;
+const MAX_SIZE_BG = 10;
+const MAX_SIZE_FG = 15;
 const GRAVITY_BG = 0.25;
 const GRAVITY_FG = 0.75;
 // const GRAVITY = 1.5;
@@ -152,6 +152,23 @@ snowShapeAnim.play();
 snowUpAnim.play();
 
 
+// PARALLAX TREE
+
+const tl = gsap.timeline({
+	scrollTrigger: {
+		trigger: '#hero',
+		start: 'top top',
+		end: 'bottom top',
+		scrub: true
+	}
+});
+
+gsap.utils.toArray('.tree-bg').forEach(layer => {
+	const depth = layer.dataset.depth;
+	const movement = -(layer.offsetHeight * depth)
+	tl.to(layer, {y: movement, ease: 'none'}, 0)
+});
+
 
 // VUE APP
 
@@ -215,8 +232,8 @@ const App = {
     // },
       data() {
         return {
-            dataUrl: 'https://osr-christmas-default-rtdb.europe-west1.firebasedatabase.app/events.json',
-            //dataUrl: 'https://www.osr.ch/fr/?advent=1',
+            // dataUrl: 'https://osr-christmas-default-rtdb.europe-west1.firebasedatabase.app/events.json',
+            dataUrl: 'https://www.osr.ch/fr/?advent=1',
             events: [],
             eventColors: [
                 {'bgColor': 'green', 'textColor': 'yellow'},
@@ -242,14 +259,7 @@ const App = {
                 {'bgColor': 'green', 'textColor': 'yellow'},
                 {'bgColor': 'purple', 'textColor': 'pink'},
                 {'bgColor': 'dark-blue', 'textColor': 'yellow'},
-                {'bgColor': 'light-blue', 'textColor': 'green'},
-                {'bgColor': 'pink', 'textColor': 'green'},
-                {'bgColor': 'green', 'textColor': 'pink'},
-                {'bgColor': 'yellow', 'textColor': 'dark-blue'},
-                {'bgColor': 'purple', 'textColor': 'yellow'},
-                {'bgColor': 'light-blue', 'textColor': 'green'},
-                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
-                {'bgColor': 'pink', 'textColor': 'green'}
+                {'bgColor': 'light-blue', 'textColor': 'green'}
             ],
             eventsLoaded: false,
             singleEventIsShowing: false,
@@ -271,7 +281,9 @@ const App = {
               console.log(this.dataUrl)
               axios.get(this.dataUrl)
                   .then(response => {
-                      this.events = response.data;
+                      // this.events = response.data;
+                      this.events = response.data.events;
+                      console.log(response.data);
                       this.eventsLoaded = true;
                   })
                   .catch(function (error) {
