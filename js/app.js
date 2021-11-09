@@ -71,6 +71,10 @@ var backSnow = function(p) {
         if (snowflake.x > p.width + diameter) snowflake.x = -diameter;
         else if (snowflake.x < -diameter) snowflake.x = p.width + diameter;
         else snowflake.x += wind * WIND_SPEED * snowflake.l;
+    };
+
+    p.windowResized = function(){
+      p.resizeCanvas(p.windowWidth, p.windowHeight, true);
     }
 };
 
@@ -131,34 +135,38 @@ var frontSnow = function(p) {
         if (snowflake.x > p.width + diameter) snowflake.x = -diameter;
         else if (snowflake.x < -diameter) snowflake.x = p.width + diameter;
         else snowflake.x += wind * WIND_SPEED * snowflake.l;
+    };
+
+    p.windowResized = function(){
+      p.resizeCanvas(p.windowWidth, p.windowHeight, true);
     }
 };
 
 new p5(backSnow, 'back-canvas');
 new p5(frontSnow, 'front-canvas');
 
-//GSAP SNOW
+//GSAP SNOW GROWING
 
-var snowShapeAnim = gsap.timeline({paused: true});
-var snowUpAnim = gsap.timeline({paused: true});
-var shape1 = 'M0,47c163-30,319.67,36,499-3,294-64,519-1,867,4.63V87H0Z';
-var shape2 = 'M0,47c163-30,316.66-23.87,499-3,297,34,519-1,867,4.63V87H0Z';
+// var snowShapeAnim = gsap.timeline({paused: true});
+// var snowUpAnim = gsap.timeline({paused: true});
+// var shape1 = 'M0,47c163-30,319.67,36,499-3,294-64,519-1,867,4.63V87H0Z';
+// var shape2 = 'M0,47c163-30,316.66-23.87,499-3,297,34,519-1,867,4.63V87H0Z';
 
-snowShapeAnim   .to('.snow-path', {attr: { d: shape2 }, duration: 200});
+// snowShapeAnim   .to('.snow-path', {attr: { d: shape2 }, duration: 200});
 
-snowUpAnim.to('.bottom-snow', {yPercent: -100, duration: 200});
+// snowUpAnim.to('.bottom-snow', {yPercent: -100, duration: 200});
 
-snowShapeAnim.play();
-snowUpAnim.play();
+// snowShapeAnim.play();
+// snowUpAnim.play();
 
 
 // PARALLAX TREE
 
 const tl = gsap.timeline({
 	scrollTrigger: {
-		trigger: '#hero',
+		trigger: '#app',
 		start: 'top top',
-		end: 'bottom top',
+		end: 'bottom -50%',
 		scrub: true
 	}
 });
