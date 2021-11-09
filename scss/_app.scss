@@ -7,8 +7,69 @@ $pink: rgb(255,195,255);
 $black: black;
 $white: white;
 
+@font-face {
+    font-family: 'Displace Serif';
+    src: url('../fonts/DisplaceSerif-Light.eot');
+    src: url('../fonts/DisplaceSerif-Light.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/DisplaceSerif-Light.woff2') format('woff2'),
+        url('../fonts/DisplaceSerif-Light.woff') format('woff'),
+        url('../fonts/DisplaceSerif-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'gt-eesti-bold';
+    src: url('../fonts/GTEestiDisplay-Bold.eot');
+    src: url('../fonts/GTEestiDisplay-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GTEestiDisplay-Bold.woff2') format('woff2'),
+        url('../fonts/GTEestiDisplay-Bold.woff') format('woff'),
+        url('../fonts/GTEestiDisplay-Bold.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'gt-eesti-medium';
+    src: url('../fonts/GTEestiDisplay-Medium.eot');
+    src: url('../fonts/GTEestiDisplay-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GTEestiDisplay-Medium.woff2') format('woff2'),
+        url('../fonts/GTEestiDisplay-Medium.woff') format('woff'),
+        url('../fonts/GTEestiDisplay-Medium.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'gt-eesti-regular';
+    src: url('../fonts/GTEestiDisplay-Regular.eot');
+    src: url('../fonts/GTEestiDisplay-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GTEestiDisplay-Regular.woff2') format('woff2'),
+        url('../fonts/GTEestiDisplay-Regular.woff') format('woff'),
+        url('../fonts/GTEestiDisplay-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'gt-eesti-light';
+    src: url('../fonts/GTEestiDisplay-Light.eot');
+    src: url('../fonts/GTEestiDisplay-Light.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GTEestiDisplay-Light.woff2') format('woff2'),
+        url('../fonts/GTEestiDisplay-Light.woff') format('woff'),
+        url('../fonts/GTEestiDisplay-Light.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+
 * {
     box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
 }
 
 body {
@@ -17,17 +78,61 @@ body {
     background: grey;
 }
 
+.container {
+    max-width: 1200px;
+    padding: 0 50px;
+    margin: 0 auto;
+}
+
+p {
+    font-size: 20px;
+    font-size: 2rem;
+    line-height: 1.2222222222;
+    font-family: 'gt-eesti-medium';
+}
+
 .header {
     text-align: center; 
+    color: $yellow;
+    padding: 10vh 50px 20vh;
 } 
 
 .header__title {
     text-transform: uppercase;
+    font-family: 'Displace Serif';
+    font-weight: normal;
+    margin: 0 0 10vh 0;
+    font-size: 30px;
+    font-size: 3rem;
+    font-size: min(max(30px, 4.1vw, 70px));
+    font-size: clamp(30px, 4.1vw, 70px);
 }
 
-.container {
-    max-width: 1200px;
-    padding: 0 50px;
+.btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10vh;
+}
+
+.btn {
+    text-decoration: none;
+    border: 2px solid $yellow;
+    padding: 20px;
+    font-size: 25px;
+    font-size: 2.5rem;
+    font-family: 'gt-eesti-medium';
+    color: $yellow;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        background-color: $yellow;
+        color: $black;
+    }
+}
+
+.header__content {
+    max-width: 850px;
     margin: 0 auto;
 }
 
@@ -46,12 +151,31 @@ body {
 // XMAS LIST ITEM
 
 .xmas-list__item {
-    flex: 0 0 25%;
+    flex: 0 0 100%;
     padding: 0 15px;
     margin-bottom: 30px;
     font-size: 50px;
+    text-transform: uppercase;
+    font-family: 'Displace Serif';
+    font-weight: normal;
     //background-color: white;
     perspective: 1000px;
+
+    @media (min-width: 500) {
+        flex: 0 0 100%;
+    }
+
+    @media (min-width: 768px) {
+        flex: 0 0 50%;
+    }
+
+    @media (min-width: 992px) {
+        flex: 0 0 calc(100% / 3);
+    }
+
+    @media (min-width: 1080px) {
+        flex: 0 0 25%;
+    }
 }
 
 .xmas-list__card {
@@ -128,53 +252,183 @@ body {
     mix-blend-mode: screen;
 }
 
+.bottom-snow {
+    position: fixed;
+    bottom: -50%;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    background-color: $white;
+    z-index: 200;
+    transform-origin: center bottom;
+    pointer-events: none;
+}
+
+.bottom-snow__svg {
+    position: absolute;
+    bottom: 99%;
+    // width: 100vh;
+    // height: 2.3828696925vh;
+}
+
+.snow-path {
+    fill: $white;
+}
+
+.transparent {
+    fill: none;
+}
+
+// POPUP
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    padding: 50px;
+    background-color: rgba($black, .75);
+    z-index: 300;
+}
+
+.popup__content {
+    position: relative;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding-top: 60px;
+    //background-color: blue;
+
+
+}
+
+.popup__vid-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.popup__text-container {
+    padding: 50px;
+    text-align: center;
+
+    >div {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+.popup__close-btn {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    right: 0;
+    top: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+
+    &:before,
+    &:after {
+        position: absolute;
+        content: "";
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: yellow;
+        top: calc(50% - 1px);
+        left: 0;
+    }
+
+    &:before {
+        transform: rotate(-45deg);
+    }
+
+    &:after {
+        transform: rotate(45deg);
+    }
+
+    &:hover {
+        transform: rotate(90deg);
+    }
+}
+
+.popup__title {
+    text-transform: uppercase;
+    font-family: 'Displace Serif';
+    font-weight: normal;
+    margin: 0 0 10vh 0;
+    font-size: 30px;
+    font-size: 3rem;
+    font-size: min(max(30px, 4.1vw, 70px));
+    font-size: clamp(30px, 4.1vw, 70px);   
+}
+
 // COLORS CARD
 
 
 [data-color="yellow"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         color: $yellow;
     }
 }
 
 [data-color="purple"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         color: $purple;
     }
 }
 
 [data-color="dark-blue"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         color: $darkBlue;
     }
 }
 
 [data-color="light-blue"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         color: $lightBlue;
     }
 }
 
 [data-color="green"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         color: $green;
     }
 }
 
 [data-color="pink"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         color: $pink;
     }
 }
 
 [data-color="black"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         color: $black;
     }
 }
 
 [data-color="white"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         color: $white;
     }
 }
@@ -183,49 +437,67 @@ body {
 
 
 [data-bg-color="yellow"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         background-color: $yellow;
     }
 }
 
 [data-bg-color="purple"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         background-color: $purple;
     }
 }
 
 [data-bg-color="dark-blue"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         background-color: $darkBlue;
     }
 }
 
 [data-bg-color="light-blue"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         background-color: $lightBlue;
     }
 }
 
 [data-bg-color="green"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         background-color: $green;
     }
 }
 
 [data-bg-color="pink"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         background-color: $pink;
     }
 }
 
 [data-bg-color="black"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         background-color: $black;
     }
 }
 
 [data-bg-color="white"] {
-    .xmas-list__side--verso {
+    .xmas-list__side--verso,
+    .popup__text-container {
         background-color: $white;
     }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }

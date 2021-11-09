@@ -1,14 +1,17 @@
 // Tweakable parameters
-const SNOWFLAKES_PER_LAYER = 60;
-const MAX_SIZE_BG = 10;
-const MAX_SIZE_FG = 15;
-const GRAVITY = 0.75;
+const SNOWFLAKES_PER_LAYER_BG = 160;
+const SNOWFLAKES_PER_LAYER_FG = 60;
+const MAX_SIZE_BG = 20;
+const MAX_SIZE_FG = 25;
+const GRAVITY_BG = 0.25;
+const GRAVITY_FG = 0.75;
+// const GRAVITY = 1.5;
 const LAYER_COUNT = 3;
 
 const WIND_SPEED = 1;
 const WIND_CHANGE = 0.0025;
 
-const SNOWFLAKES = [];
+// const SNOWFLAKES = [];
 const SNOWFLAKES_BG = [];
 const SNOWFLAKES_FG = [];
 
@@ -24,7 +27,7 @@ var backSnow = function(p) {
       // Initialize the snowflakes with random positions
       for (let l = 0; l < LAYER_COUNT; l++) {
         SNOWFLAKES_BG.push([]);
-        for (let i = 0; i < SNOWFLAKES_PER_LAYER; i++) {
+        for (let i = 0; i < SNOWFLAKES_PER_LAYER_BG; i++) {
           SNOWFLAKES_BG[l].push({
             x: p.random(p.width),
             y: p.random(p.height),
@@ -45,9 +48,13 @@ var backSnow = function(p) {
       
           for (let i = 0; i < LAYER.length; i++) {
             const snowflake = LAYER[i];
+
             p.fill('rgba(255,255,255,'+ snowflake.opacity +')')
+            //p.drawingContext.filter = 'blur(1px)'
             p.circle(snowflake.x, snowflake.y, (snowflake.l * MAX_SIZE_BG) / LAYER_COUNT);
+            
             updateSnowflake(snowflake);
+
           }
         }
     };
@@ -55,7 +62,7 @@ var backSnow = function(p) {
     function updateSnowflake(snowflake) {
         const diameter = (snowflake.l * MAX_SIZE_BG) / LAYER_COUNT;
         if (snowflake.y > p.height + diameter) snowflake.y = -diameter;
-        else snowflake.y += GRAVITY * snowflake.l * snowflake.mass;
+        else snowflake.y += GRAVITY_BG * snowflake.l * snowflake.mass;
       
         // Get the wind speed at the given layer and area of the page
         const wind =
@@ -79,7 +86,7 @@ var frontSnow = function(p) {
       // Initialize the snowflakes with random positions
       for (let l = 0; l < LAYER_COUNT; l++) {
         SNOWFLAKES_FG.push([]);
-        for (let i = 0; i < SNOWFLAKES_PER_LAYER; i++) {
+        for (let i = 0; i < SNOWFLAKES_PER_LAYER_FG; i++) {
           SNOWFLAKES_FG[l].push({
             x: p.random(p.width),
             y: p.random(p.height),
@@ -115,7 +122,7 @@ var frontSnow = function(p) {
     function updateSnowflake(snowflake) {
         const diameter = (snowflake.l * MAX_SIZE_FG) / LAYER_COUNT;
         if (snowflake.y > p.height + diameter) snowflake.y = -diameter;
-        else snowflake.y += GRAVITY * snowflake.l * snowflake.mass;
+        else snowflake.y += GRAVITY_FG * snowflake.l * snowflake.mass;
       
         // Get the wind speed at the given layer and area of the page
         const wind =
@@ -130,22 +137,53 @@ var frontSnow = function(p) {
 new p5(backSnow, 'back-canvas');
 new p5(frontSnow, 'front-canvas');
 
+//GSAP SNOW
+
+var snowShapeAnim = gsap.timeline({paused: true});
+var snowUpAnim = gsap.timeline({paused: true});
+var shape1 = 'M0,47c163-30,319.67,36,499-3,294-64,519-1,867,4.63V87H0Z';
+var shape2 = 'M0,47c163-30,316.66-23.87,499-3,297,34,519-1,867,4.63V87H0Z';
+
+snowShapeAnim   .to('.snow-path', {attr: { d: shape2 }, duration: 200});
+
+snowUpAnim.to('.bottom-snow', {yPercent: -100, duration: 200});
+
+snowShapeAnim.play();
+snowUpAnim.play();
+
+
 
 // VUE APP
 
 const XmasItem = {
     props: ['index', 'date', 'title', 'details', 'video'],
 
-    template: `<li :class="[this.isPastClass, 'x-mas-item']">
-                              <a href="#" @click.prevent="passThisItem([index])" v-if="isPast">{{ index + 1 }}</a>
-                              <span v-else>{{ index + 1 }}</span>
-                          </li>`,
+    // template: `<li :class="[this.isPastClass, 'x-mas-item']">
+    //                           <a href="#" @click.prevent="passThisItem([index])" v-if="isPast">{{ index + 1 }}</a>
+    //                           <span v-else>{{ index + 1 }}</span>
+    //                       </li>`,
+    template:   `<li :class="[this.isPastClass, 'xmas-list__item']" :data-color="this.textColor" :data-bg-color="this.bgColor">
+                    <a href="#" @click.prevent="passThisItem([index])" class="xmas-list__card" v-if="isPast">
+                        <div class="xmas-list__side xmas-list__side--recto">{{ index + 1 }}</div>
+                        <div class="xmas-list__side xmas-list__side--verso">{{ index + 1 }}</div>
+                    </a>
+                    <div class="xmas-list__card" v-else>
+                        <div class="xmas-list__side xmas-list__side--recto">{{ index + 1 }}</div>
+                        <div class="xmas-list__side xmas-list__side--verso">{{ index + 1 }}</div>
+                    </div>
+                </li>`,
     computed: {
         isPast: function(){
             return moment() > moment(this.date);
         },
         isPastClass: function(){
-            return moment() > moment(this.date) ? 'x-mas-item--is-ready' : 'x-mas-item--is-not-ready';
+            return moment() > moment(this.date) ? 'xmas-list__item--is-ready' : 'xmas-list__item--is-not-ready';
+        },
+        bgColor: function(){
+            return this.$parent.eventColors[this.index].bgColor
+        },
+        textColor: function(){
+            return this.$parent.eventColors[this.index].textColor
         }
     },
     methods: {
@@ -155,8 +193,15 @@ const XmasItem = {
         passThisItem(index){
             //console.log(index)
             this.$parent.showPopup(index);
+            this.$parent.currentBgColor = this.$parent.eventColors[this.index].bgColor;
+            this.$parent.currentTextColor = this.$parent.eventColors[this.index].textColor;
+
         }
-    }
+    },
+    // mounted(){
+    //     console.log(this.$parent.eventColors[this.index].bgColor)
+    // }
+
 };
   
 const App = {
@@ -171,42 +216,46 @@ const App = {
       data() {
         return {
             dataUrl: 'https://osr-christmas-default-rtdb.europe-west1.firebasedatabase.app/events.json',
+            //dataUrl: 'https://www.osr.ch/fr/?advent=1',
             events: [],
-            eventsColor: [
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
-                {'bg-color': 'green', 'text-color': 'yellow'},
+            eventColors: [
+                {'bgColor': 'green', 'textColor': 'yellow'},
+                {'bgColor': 'purple', 'textColor': 'pink'},
+                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
+                {'bgColor': 'light-blue', 'textColor': 'green'},
+                {'bgColor': 'pink', 'textColor': 'green'},
+                {'bgColor': 'green', 'textColor': 'pink'},
+                {'bgColor': 'yellow', 'textColor': 'dark-blue'},
+                {'bgColor': 'purple', 'textColor': 'yellow'},
+                {'bgColor': 'light-blue', 'textColor': 'green'},
+                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
+                {'bgColor': 'green', 'textColor': 'yellow'},
+                {'bgColor': 'purple', 'textColor': 'pink'},
+                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
+                {'bgColor': 'light-blue', 'textColor': 'green'},
+                {'bgColor': 'pink', 'textColor': 'green'},
+                {'bgColor': 'green', 'textColor': 'pink'},
+                {'bgColor': 'yellow', 'textColor': 'dark-blue'},
+                {'bgColor': 'purple', 'textColor': 'yellow'},
+                {'bgColor': 'light-blue', 'textColor': 'green'},
+                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
+                {'bgColor': 'green', 'textColor': 'yellow'},
+                {'bgColor': 'purple', 'textColor': 'pink'},
+                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
+                {'bgColor': 'light-blue', 'textColor': 'green'},
+                {'bgColor': 'pink', 'textColor': 'green'},
+                {'bgColor': 'green', 'textColor': 'pink'},
+                {'bgColor': 'yellow', 'textColor': 'dark-blue'},
+                {'bgColor': 'purple', 'textColor': 'yellow'},
+                {'bgColor': 'light-blue', 'textColor': 'green'},
+                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
+                {'bgColor': 'pink', 'textColor': 'green'}
             ],
             eventsLoaded: false,
             singleEventIsShowing: false,
             activeEventID: 0,
+            currentBgColor: 'pink',
+            currentTextColor: 'purple'
         }
       },
       components: {
