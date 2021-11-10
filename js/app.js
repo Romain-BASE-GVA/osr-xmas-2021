@@ -180,6 +180,8 @@ gsap.utils.toArray('.tree-bg').forEach(layer => {
 
 // VUE APP
 
+var dataUrl = $('body').data('data-url');
+
 const XmasItem = {
     props: ['index', 'date', 'title', 'details', 'video'],
 
@@ -241,7 +243,7 @@ const App = {
       data() {
         return {
             // dataUrl: 'https://osr-christmas-default-rtdb.europe-west1.firebasedatabase.app/events.json',
-            dataUrl: 'https://www.osr.ch/fr/?advent=1',
+            dataUrl: dataUrl,
             events: [],
             eventColors: [
                 {'bgColor': 'green', 'textColor': 'yellow'},
