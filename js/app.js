@@ -1,3 +1,39 @@
+// PARALLAX TREE
+
+// gsap.to('.scroll-to', {
+//   autoAlpha: 0,
+//   scrollTrigger: {
+//     markers: true,
+//     trigger: '.header',
+//     scrub: true,
+//     start: '10px top',
+//     end: '50px'
+//   },
+// });
+
+$(window).on('scroll', function(){
+
+  var y = window.scrollY / 300;
+
+  gsap.to('.scroll-to', {autoAlpha: 1 - y});
+
+});
+
+const tl = gsap.timeline({
+	scrollTrigger: {
+		trigger: '#app',
+		start: 'top top',
+		end: 'bottom -50%',
+		scrub: true
+	}
+});
+
+gsap.utils.toArray('.tree-bg').forEach(layer => {
+	const depth = layer.dataset.depth;
+	const movement = -(layer.offsetHeight * depth)
+	tl.to(layer, {y: movement, ease: 'none'}, 0)
+});
+
 // Tweakable parameters
 const SNOWFLAKES_PER_LAYER_BG = 160;
 const SNOWFLAKES_PER_LAYER_FG = 60;
@@ -160,22 +196,9 @@ new p5(frontSnow, 'front-canvas');
 // snowUpAnim.play();
 
 
-// PARALLAX TREE
 
-const tl = gsap.timeline({
-	scrollTrigger: {
-		trigger: '#app',
-		start: 'top top',
-		end: 'bottom -50%',
-		scrub: true
-	}
-});
 
-gsap.utils.toArray('.tree-bg').forEach(layer => {
-	const depth = layer.dataset.depth;
-	const movement = -(layer.offsetHeight * depth)
-	tl.to(layer, {y: movement, ease: 'none'}, 0)
-});
+
 
 
 // VUE APP
@@ -246,30 +269,30 @@ const App = {
             dataUrl: dataUrl,
             events: [],
             eventColors: [
-                {'bgColor': 'green', 'textColor': 'yellow'},
-                {'bgColor': 'purple', 'textColor': 'pink'},
-                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
-                {'bgColor': 'light-blue', 'textColor': 'green'},
-                {'bgColor': 'pink', 'textColor': 'green'},
+                {'bgColor': 'yellow', 'textColor': 'purple'},
                 {'bgColor': 'green', 'textColor': 'pink'},
-                {'bgColor': 'yellow', 'textColor': 'dark-blue'},
+                {'bgColor': 'light-blue', 'textColor': 'black'},
+                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
                 {'bgColor': 'purple', 'textColor': 'yellow'},
-                {'bgColor': 'light-blue', 'textColor': 'green'},
-                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
-                {'bgColor': 'green', 'textColor': 'yellow'},
-                {'bgColor': 'purple', 'textColor': 'pink'},
-                {'bgColor': 'dark-blue', 'textColor': 'yellow'},
-                {'bgColor': 'light-blue', 'textColor': 'green'},
-                {'bgColor': 'pink', 'textColor': 'green'},
                 {'bgColor': 'green', 'textColor': 'pink'},
-                {'bgColor': 'yellow', 'textColor': 'dark-blue'},
+                {'bgColor': 'pink', 'textColor': 'green'},
+                {'bgColor': 'light-blue', 'textColor': 'black'},
+                {'bgColor': 'yellow', 'textColor': 'purple'},
+                {'bgColor': 'green', 'textColor': 'pink'},
+                {'bgColor': 'pink', 'textColor': 'green'},
                 {'bgColor': 'purple', 'textColor': 'yellow'},
-                {'bgColor': 'light-blue', 'textColor': 'green'},
+                {'bgColor': 'green', 'textColor': 'pink'},
+                {'bgColor': 'light-blue', 'textColor': 'black'},
                 {'bgColor': 'dark-blue', 'textColor': 'yellow'},
-                {'bgColor': 'green', 'textColor': 'yellow'},
-                {'bgColor': 'purple', 'textColor': 'pink'},
+                {'bgColor': 'purple', 'textColor': 'yellow'},
+                {'bgColor': 'pink', 'textColor': 'green'},
+                {'bgColor': 'yellow', 'textColor': 'purple'},
+                {'bgColor': 'green', 'textColor': 'pink'},
                 {'bgColor': 'dark-blue', 'textColor': 'yellow'},
-                {'bgColor': 'light-blue', 'textColor': 'green'}
+                {'bgColor': 'purple', 'textColor': 'yellow'},
+                {'bgColor': 'pink', 'textColor': 'green'},
+                {'bgColor': 'yellow', 'textColor': 'purple'},
+                {'bgColor': 'light-blue', 'textColor': 'black'}
             ],
             eventsLoaded: false,
             singleEventIsShowing: false,
@@ -320,5 +343,5 @@ const App = {
     }
 };
   
-Vue.createApp(App).mount('#app')
+Vue.createApp(App).mount('#app');
 
