@@ -35,8 +35,10 @@ gsap.utils.toArray('.tree-bg').forEach(layer => {
 });
 
 // Tweakable parameters
-const SNOWFLAKES_PER_LAYER_BG = 160;
-const SNOWFLAKES_PER_LAYER_FG = 60;
+// const SNOWFLAKES_PER_LAYER_BG = 160;
+// const SNOWFLAKES_PER_LAYER_FG = 60;
+const SNOWFLAKES_PER_LAYER_BG = window.innerWidth / 12;
+const SNOWFLAKES_PER_LAYER_FG = SNOWFLAKES_PER_LAYER_BG / 160 * 60;
 const MAX_SIZE_BG = 10;
 const MAX_SIZE_FG = 15;
 const GRAVITY_BG = 0.25;
