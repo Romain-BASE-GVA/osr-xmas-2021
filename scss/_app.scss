@@ -94,14 +94,14 @@ p {
 .header {
     text-align: center; 
     color: $yellow;
-    padding: 10vh 50px 15vh;
+    padding: 7vh 50px 15vh;
 } 
 
 .header__title {
     text-transform: uppercase;
     font-family: 'Displace Serif';
     font-weight: normal;
-    margin: 0 0 10vh 0;
+    margin: 0 0 5vh 0;
     font-size: 30px;
     font-size: 3rem;
     font-size: min(max(30px, 4.1vw, 70px));
@@ -112,7 +112,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 10vh;
+    margin-top: 5vh;
 }
 
 .btn {

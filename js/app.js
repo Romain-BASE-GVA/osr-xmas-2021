@@ -226,10 +226,10 @@ const XmasItem = {
                 </li>`,
     computed: {
         isPast: function(){
-            return moment() > moment(this.date);
+            return moment() > moment(this.date).add(8, 'hours');
         },
         isPastClass: function(){
-            return moment() > moment(this.date) ? 'xmas-list__item--is-ready' : 'xmas-list__item--is-not-ready';
+            return moment() > moment(this.date).add(8, 'hours') ? 'xmas-list__item--is-ready' : 'xmas-list__item--is-not-ready';
         },
         bgColor: function(){
             return this.$parent.eventColors[this.index].bgColor
