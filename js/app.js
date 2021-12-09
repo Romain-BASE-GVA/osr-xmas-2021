@@ -340,6 +340,27 @@ const App = {
               //console.log('close popup')
           }
     },
+    // watch: {
+    //   eventsLoaded: function(val) {
+    //     // console.log(val)
+    //       // do something when the data changes.
+    //       if (val) {
+    //         setTimeout(function(){
+
+    //           var lastTopItem = $('body').find('.xmas-list__item--is-ready').last().offset().top;
+
+    //           console.log(lastTopItem);
+
+    //           $('HTML, BODY').animate({
+    //             scrollTop: lastTopItem - 20
+    //           }, 1000);
+
+    //         }, 500);
+
+
+    //       }
+    //   }
+    // },
     mounted: function () {
       this.getAndSetEvents();
     }
