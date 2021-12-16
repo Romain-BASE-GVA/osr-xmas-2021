@@ -105,11 +105,15 @@ p {
     text-transform: uppercase;
     font-family: 'Displace Serif';
     font-weight: normal;
-    margin: 0 0 5vh 0;
+    margin: 0 0 0 0;
     font-size: 30px;
     font-size: 3rem;
     font-size: min(max(30px, 4.1vw, 70px));
     font-size: clamp(30px, 4.1vw, 70px);
+
+    @media (min-width: 992px) {
+        margin: 0 0 5vh 0;
+    }
 }
 
 .btn-container {
@@ -138,9 +142,14 @@ p {
 .header__content {
     max-width: 1000px;
     margin: 0 auto;
+    display: none;
 
     p:only-child {
         margin-bottom: 0;
+    }
+
+    @media (min-width: 992px) {
+        display: block;
     }
 }
 
@@ -514,12 +523,13 @@ p {
 
 .scroll-to {
     position: relative;
-    display: inline-block;
+    //display: inline-block;
     text-decoration: none;
     font-size: 100px;
     font-family: "Displace Serif";
     font-weight: normal;
     color: $yellow;
+    display: none;
     animation: downarrow 0.6s infinite alternate ease-in-out;
 
     &:after {
@@ -532,6 +542,10 @@ p {
         border-bottom: 2px solid $yellow;
         border-right: 2px solid $yellow;
 
+    }
+
+    @media (min-width: 992px) {
+        display: inline-block;
     }
 
     // span {
