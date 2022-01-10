@@ -215,11 +215,7 @@ const XmasItem = {
     //                           <span v-else>{{ index + 1 }}</span>
     //                       </li>`,
     template:   `<li :class="[this.isPastClass, 'xmas-list__item']" :data-color="this.textColor" :data-bg-color="this.bgColor">
-                    <a href="#" @click.prevent="passThisItem([index])" class="xmas-list__card" v-if="isPast">
-                        <div class="xmas-list__side xmas-list__side--recto">{{ index + 1 }}</div>
-                        <div class="xmas-list__side xmas-list__side--verso">{{ index + 1 }}</div>
-                    </a>
-                    <div class="xmas-list__card" v-else>
+                    <div class="xmas-list__card">
                         <div class="xmas-list__side xmas-list__side--recto">{{ index + 1 }}</div>
                         <div class="xmas-list__side xmas-list__side--verso">{{ index + 1 }}</div>
                     </div>
